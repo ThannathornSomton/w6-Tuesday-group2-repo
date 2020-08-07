@@ -4,11 +4,7 @@ void setup(){
   background(255);
   size(800, 495);
   balloon_1 = new Ball();
-}
-
-void draw(){
-  background(255);
-  balloon_1.draw(); 
+  balloon_1.draw();
 }
 
 //class name Ball
