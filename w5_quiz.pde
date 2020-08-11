@@ -1,14 +1,13 @@
 Ball[] balloon;
-int start_point = 100, distance = 100, Balloon_quantity = 5;
+int Balloon_quantity = 5;
 
 void setup(){
   background(255);
   size(800, 495);
   balloon = new Ball[5];
   for(int i = 0; i < Balloon_quantity; i++){
-    balloon[i] = new Ball(start_point + distance, 400);
+    balloon[i] = new Ball();
     balloon[i].draw();
-    start_point += distance;
   }
 }
 
@@ -22,8 +21,8 @@ Ball(){
   red = random(0,255);
   green = random(0,255);
   blue = random(0,255);
-  position_x = 50;
-  position_y = 400;
+  position_x = random(0, width);
+  position_y = random(0, height);
   size = 50;
 }
 
