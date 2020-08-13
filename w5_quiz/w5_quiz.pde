@@ -1,7 +1,7 @@
 Ball[] ball;  //set ball as object of Ball 
 Block[] block; //set block as object of Block 
 int balloon_quantity = 5, block_quantity = 5;
-float sumArea = 0;   //sumation of all area 
+double sumArea = 0;   //sumation of all area 
 boolean deleteCheck; //boolean for check first clicked
 void setup(){
         background(255);
@@ -17,7 +17,7 @@ void setup(){
             block[j] = new Block();        //random each block 
             sumArea += block[j].getArea(); //Adition area with new block
         }  
-        println(sumArea,"Area"); //display Sumation of area
+        println("Sumation of all area is : ",(sumArea)); //display Sumation of area
 }
 
 
@@ -37,7 +37,7 @@ void mouseClicked(){
         if  ((mouseX > block[i].position_x) && (mouseX < block[i].position_x + block[i].size)   
               && (mouseY > block[i].position_y) && (mouseY < block[i].position_y + block[i].size)){
            //if click in some block 
-          println(sumArea-block[i].getArea(),"=",sumArea,"-",block[i].getArea());
+          println("New sumation : ",sumArea-block[i].getArea(),"=",sumArea,"-",block[i].getArea());
           sumArea -= block[i].getArea();  // substraction sumation of area  
           if   (i < (block.length - 1)){   //if is not last object 
               arraycopy(block, i+1, block, i, block.length-(i+1));  //move i object to most right array 
@@ -56,7 +56,7 @@ void mouseClicked(){
           float d = dist(mouseX, mouseY, ball[j].position_x, ball[j].position_y); 
           //distance between mouse and center of each ball 
           if (d < (ball[j].size / 2)){ //if distance  not over radius  means click in ball 
-              println(sumArea-ball[j].getArea(),"=",sumArea,"-",ball[j].getArea());
+              println("New Sumtaion : ",sumArea-ball[j].getArea(),"=",sumArea,"-",ball[j].getArea());
               sumArea -= ball[j].getArea();
               if (j < (ball.length - 1)){ //check if it's not last object 
                   arraycopy(ball, j+1, ball, j, ball.length-(j+1));  //move j object to  most right array 
