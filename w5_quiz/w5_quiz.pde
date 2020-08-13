@@ -32,18 +32,19 @@ void draw(){
 }
 
 void mouseClicked(){
-  
-      deleteCheck = false;
+      deleteCheck = false; //set deleteCheck to default 
       for(int i = block.length - 1; i >= 0; i--){ //checking all obj in array of block 
         if  ((mouseX > block[i].position_x) && (mouseX < block[i].position_x + block[i].size)   
               && (mouseY > block[i].position_y) && (mouseY < block[i].position_y + block[i].size)){
-           //if click in some block
+           //if click in some block 
+          println(sumArea-block[i].getArea(),"=",sumArea,"-",block[i].getArea());
+          sumArea -= block[i].getArea();  // substraction sumation of area  
           if   (i < (block.length - 1)){   //if is not last object 
               arraycopy(block, i+1, block, i, block.length-(i+1));  //move i object to most right array 
               block =(Block[]) shorten(block);       //remove most right object
           }
           else{      //if is last object
-              block = (Block[]) shorten(block);
+              block = (Block[]) shorten(block); //remove most right object 
           }
           deleteCheck = true;
           break;  //break if removed 
@@ -55,6 +56,8 @@ void mouseClicked(){
           float d = dist(mouseX, mouseY, ball[j].position_x, ball[j].position_y); 
           //distance between mouse and center of each ball 
           if (d < (ball[j].size / 2)){ //if distance  not over radius  means click in ball 
+              println(sumArea-ball[j].getArea(),"=",sumArea,"-",ball[j].getArea());
+              sumArea -= ball[j].getArea();
               if (j < (ball.length - 1)){ //check if it's not last object 
                   arraycopy(ball, j+1, ball, j, ball.length-(j+1));  //move j object to  most right array 
                   ball =(Ball[]) shorten(ball);  //remove last object 
