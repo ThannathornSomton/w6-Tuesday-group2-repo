@@ -2,7 +2,7 @@ Ball[] ball;  //set ball as object of Ball
 Block[] block; //set block as object of Block 
 int balloon_quantity = 5, block_quantity = 5;
 float sumArea = 0;   //sumation of all area 
-
+boolean deleteCheck; //boolean for check first clicked
 void setup(){
         background(255);
         size(800, 495);
@@ -33,7 +33,25 @@ void draw(){
 
 void mouseClicked(){
   
-     for(int j = ball.length - 1; j >= 0; j--){  //check all ball 
+      deleteCheck = false;
+      for(int i = block.length - 1; i >= 0; i--){ //checking all obj in array of block 
+        if  ((mouseX > block[i].position_x) && (mouseX < block[i].position_x + block[i].size)   
+              && (mouseY > block[i].position_y) && (mouseY < block[i].position_y + block[i].size)){
+           //if click in some block
+          if   (i < (block.length - 1)){   //if is not last object 
+              arraycopy(block, i+1, block, i, block.length-(i+1));  //move i object to most right array 
+              block =(Block[]) shorten(block);       //remove most right object
+          }
+          else{      //if is last object
+              block = (Block[]) shorten(block);
+          }
+          deleteCheck = true;
+          break;  //break if removed 
+        }
+      }
+      
+      if (deleteCheck == false){  //remove if block didn't remove 
+        for(int j = ball.length - 1; j >= 0; j--){  //check all ball 
           float d = dist(mouseX, mouseY, ball[j].position_x, ball[j].position_y); 
           //distance between mouse and center of each ball 
           if (d < (ball[j].size / 2)){ //if distance  not over radius  means click in ball 
@@ -47,6 +65,7 @@ void mouseClicked(){
               break;
           }
         }
+     }
 }
 
 class Ball{
