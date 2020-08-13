@@ -31,6 +31,24 @@ void draw(){
         }
 }
 
+void mouseClicked(){
+  
+     for(int j = ball.length - 1; j >= 0; j--){  //check all ball 
+          float d = dist(mouseX, mouseY, ball[j].position_x, ball[j].position_y); 
+          //distance between mouse and center of each ball 
+          if (d < (ball[j].size / 2)){ //if distance  not over radius  means click in ball 
+              if (j < (ball.length - 1)){ //check if it's not last object 
+                  arraycopy(ball, j+1, ball, j, ball.length-(j+1));  //move j object to  most right array 
+                  ball =(Ball[]) shorten(ball);  //remove last object 
+              }
+              else{  //if it's last object 
+              ball =(Ball[]) shorten(ball);  //remove last object 
+              }
+              break;
+          }
+        }
+}
+
 class Ball{
   
   float position_x,  position_y, size, red, green, blue; //set x y size and color as attribute 
