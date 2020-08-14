@@ -6,6 +6,7 @@ boolean deleteCheck; //boolean for check first clicked
 void setup(){
         background(255);
         size(800, 495);
+        colorMode(HSB);
         
         ball = new Ball[balloon_quantity];   //create ball
         block = new Block[block_quantity];   //create block 
@@ -73,10 +74,11 @@ void mouseClicked(){
 
 class Ball{
   
-  float position_x,  position_y, size, red, green, blue; //set x y size and color as attribute 
+  float position_x,  position_y, size, red, green, blue, Color; //set x y size and color as attribute 
 
   // Constructor if no input random it 
   Ball(){
+    Color = random(0, 255);
     red = random(0, 255);  //random red color
     green = random(0, 255); //random green color 
     blue = random(0, 255);  //random blue color 
@@ -86,6 +88,7 @@ class Ball{
   }
    
   Ball(float pos_x, float pos_y){
+    Color = random(0, 255);
     red = random(0, 255);
     green = random(0, 255);
     blue = random(0, 255);
@@ -95,6 +98,7 @@ class Ball{
   }
   
   Ball(float pos_x, float pos_y, int size_ball){
+    Color = random(0, 255);
     red = random(0,255);
     green = random(0,255);
     blue = random(0,255);
@@ -105,7 +109,13 @@ class Ball{
   
   //Method draw ball each x,y,z size and color 
   void draw(){
-    fill(red, green, blue);
+    if(Color < 255){
+      Color++;
+    }
+    else{
+      Color = 0;
+    }
+    fill(Color, 150, 255);
     ellipse(position_x, position_y, size, size);
   }
   
@@ -117,19 +127,21 @@ class Ball{
 
 class Block{
   
-  float position_x,  position_y, size, red, green, blue; //set x y size and color as attribute
+  float position_x,  position_y, size, red, green, blue, Color; //set x y size and color as attribute
   
   Block(){  //if no input random it 
+    Color = random(0, 255);
     red = random(0, 255);  //random red color 
     green = random(0, 255); //random green color 
     blue = random(0, 255);  //random blue color 
     this.position_x = random(0, width);
     this.position_y = random(0, height);
-    this.size = random(0, 200);
+    this.size = random(50, 200);
     
   }
   
   Block(float pos_x, float pos_y, int size_block){
+    Color = random(0, 255);
     red = random(0, 255);
     green = random(0, 255);
     blue = random(0, 255);
@@ -139,6 +151,7 @@ class Block{
   }
   
   Block(float pos_x, float pos_y){
+    Color = random(0, 255);
     red = random(0, 255);
     green = random(0, 255);
     blue = random(0, 255);
@@ -149,7 +162,13 @@ class Block{
   
   
   void draw(){ //draw block from x,y,size and set color 
-    fill(red, green, blue);
+    if(Color < 255){
+      Color++;
+    }
+    else{
+      Color = 0;
+    }
+    fill(Color, 150, 255);
     rect(position_x, position_y, size, size);
   }
   
