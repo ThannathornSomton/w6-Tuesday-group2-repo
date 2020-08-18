@@ -102,7 +102,7 @@ public class Ball{
     this.position_x = pos_x;
     this.position_y = pos_y;
     this.size = size_ball;
-    println(position_x);
+    
   }
   
   //Method draw ball each x,y,z size and color 
@@ -127,9 +127,9 @@ class Block{
   
   float position_x,  position_y, size, red, green, blue, Color; //set x y size and color as attribute
   Ball[] manyBall; 
-  boolean status_flicker;
+  
   Block(){  //if no input random it 
-    int m = random(0,1.99);
+    
     Color = random(0, 255);
     red = random(0, 255);  //random red color 
     green = random(0, 255); //random green color 
@@ -137,15 +137,18 @@ class Block{
     this.position_x = random(0, width);
     this.position_y = random(0, height);
     this.size = random(50, 200);
-     int i = int(random(1,3));
+   
+    int i = int(random(1,3));
+     println(i);
     manyBall = new  Ball[i]; 
-    for (int k =0 ; k<i ; k++){
-      manyBall[k] = new Ball(random(position_x,position_x+size), random(position_y, position_y+size) ,(int) random(size));
-      if ((manyBall[k].position_x-manyBall[k].size/2 < this.position_x) && (manyBall[k].position_x+manyBall[k].size/2 > this.position_x)) {
-        --k;
+    for (int k =i-1 ; k>=0 ; k--){
+      print("hello");
+      manyBall[k] = new Ball(random(position_x,position_x+size), random(position_y, position_y+size) ,(int( random(size*2))));
+      if ((manyBall[k].position_x-manyBall[k].size/2 < this.position_x) || (manyBall[k].position_x+manyBall[k].size/2 > this.position_x+this.size)) {
+        k++;
       }
-      else if ((manyBall[k].position_y-manyBall[k].size/2 < this.position_y) && (manyBall[k].position_y+manyBall[k].size/2 > this.position_y)) {
-        --k;
+      else if ((manyBall[k].position_y-(manyBall[k].size)/2 < this.position_y) || (manyBall[k].position_y+(manyBall[k].size)/2 > this.position_y+this.size)) {
+        k++;
       }
       
     }
