@@ -23,6 +23,7 @@ void setup(){
 
 
 void draw(){
+        background(255);
         for(Block each_block : block){ //for each in ball[] 
           each_block.draw();  //draw new block
         }
@@ -30,9 +31,32 @@ void draw(){
 
 void mouseClicked(){
       deleteCheck = false; //set deleteCheck to default 
+      boolean tester=false;
       for(int i = block.length - 1; i >= 0; i--){ //checking all obj in array of block 
+        
+          for(int j = block[i].manyBall.length - 1; j >= 0; j--){  //check all ball 
+          float d = dist(mouseX, mouseY, block[i].manyBall[j].position_x, block[i].manyBall[j].position_y); 
+          //distance between mouse and center of each ball 
+          if (d < (block[i].manyBall[j].size / 2) && !block[i].manyBall[j].status){ //if distance  not over radius  means click in ball 
+              println("New Sumtaion : ",sumArea-block[i].manyBall[j].getArea(),"=",sumArea,"-",block[i].manyBall[j].getArea());
+              sumArea -= block[i].manyBall[j].getArea();
+              if (j < (block[i].manyBall.length - 1)){ //check if it's not last object 
+                  arraycopy(block[i].manyBall, j+1, block[i].manyBall, j, block[i].manyBall.length-(j+1));  //move j object to  most right array 
+                  block[i].manyBall =(Ball[]) shorten(block[i].manyBall);  //remove last object 
+              }
+              else{  //if it's last object 
+              block[i].manyBall =(Ball[]) shorten(block[i].manyBall);  //remove last object 
+              }
+              tester = true ;
+              break;
+          }
+         
+        }
+        if (tester == true){
+           break;
+         }
         if  ((mouseX > block[i].position_x) && (mouseX < block[i].position_x + block[i].size)   
-              && (mouseY > block[i].position_y) && (mouseY < block[i].position_y + block[i].size)){
+              && (mouseY > block[i].position_y) && (mouseY < block[i].position_y + block[i].size) && !block[i].status){
            //if click in some block 
           println("New sumation : ",sumArea-block[i].getArea(),"=",sumArea,"-",block[i].getArea());
           sumArea -= block[i].getArea();  // substraction sumation of area  
@@ -46,31 +70,16 @@ void mouseClicked(){
           deleteCheck = true;
           break;  //break if removed 
         }
+      
+      print(i);
       }
       
-      if (deleteCheck == false){  //remove if block didn't remove 
-        for(int j = ball.length - 1; j >= 0; j--){  //check all ball 
-          float d = dist(mouseX, mouseY, ball[j].position_x, ball[j].position_y); 
-          //distance between mouse and center of each ball 
-          if (d < (ball[j].size / 2)){ //if distance  not over radius  means click in ball 
-              println("New Sumtaion : ",sumArea-ball[j].getArea(),"=",sumArea,"-",ball[j].getArea());
-              sumArea -= ball[j].getArea();
-              if (j < (ball.length - 1)){ //check if it's not last object 
-                  arraycopy(ball, j+1, ball, j, ball.length-(j+1));  //move j object to  most right array 
-                  ball =(Ball[]) shorten(ball);  //remove last object 
-              }
-              else{  //if it's last object 
-              ball =(Ball[]) shorten(ball);  //remove last object 
-              }
-              break;
-          }
-        }
-     }
 }
 
 public class Ball{
   
-  float position_x,  position_y, size, red, green, blue, Color; //set x y size and color as attribute 
+  float position_x,  position_y, size, red, green, blue, Color; //set x y size and color as attribute
+  boolean  status; 
 
   // Constructor if no input random it 
   Ball(){
@@ -95,6 +104,13 @@ public class Ball{
   }
   
   public Ball(float pos_x, float pos_y, int size_ball){
+    int m = int(random(0,1.99)); 
+     if (m==0){
+       status = false;
+     }
+     else {
+       status = true; 
+     }
     Color = random(0, 255);
     red = random(0,255);
     green = random(0,255);
@@ -107,11 +123,13 @@ public class Ball{
   
   //Method draw ball each x,y,z size and color 
   void draw(){
-    if(Color < 255){
-      Color++;
-    }
-    else{
-      Color = 0;
+    if (status){
+      if(Color < 255){
+        Color++;
+      }
+      else{
+        Color = 0;
+      }
     }
     fill(Color, 150, 255);
     ellipse(position_x, position_y, size, size);
@@ -127,9 +145,15 @@ class Block{
   
   float position_x,  position_y, size, red, green, blue, Color; //set x y size and color as attribute
   Ball[] manyBall; 
-  
+  boolean status; 
   Block(){  //if no input random it 
-    
+     int m = int(random(0,1.99)); 
+     if (m==0){
+       status = false;
+     }
+     else {
+       status = true; 
+     }
     Color = random(0, 255);
     red = random(0, 255);  //random red color 
     green = random(0, 255); //random green color 
@@ -138,12 +162,12 @@ class Block{
     this.position_y = random(0, height);
     this.size = random(50, 200);
    
-    int i = int(random(1,3));
+    int i = int(random(1,2));
      println(i);
     manyBall = new  Ball[i]; 
     for (int k =i-1 ; k>=0 ; k--){
       print("hello");
-      manyBall[k] = new Ball(random(position_x,position_x+size), random(position_y, position_y+size) ,(int( random(size*2))));
+      manyBall[k] = new Ball(random(position_x,position_x+size), random(position_y, position_y+size) ,(int( random(size/2,size*2))));
       if ((manyBall[k].position_x-manyBall[k].size/2 < this.position_x) || (manyBall[k].position_x+manyBall[k].size/2 > this.position_x+this.size)) {
         k++;
       }
@@ -178,12 +202,13 @@ class Block{
   
   
   void draw(){ //draw block from x,y,size and set color 
-    if(Color < 255){
+   if(status){ if(Color < 255){
       Color++;
     }
     else{
       Color = 0;
     }
+    }  
     fill(Color, 150, 255);
     rect(position_x, position_y, size, size);
     for (Ball eachBall : manyBall ) {
